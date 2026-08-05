@@ -7,6 +7,7 @@
   </picture>
 </h1>
 
+[![Build](https://img.shields.io/github/actions/workflow/status/bearyjd/gv-mark-read/ci.yml?branch=master&style=for-the-badge&logo=githubactions&logoColor=white&label=build)](https://github.com/bearyjd/gv-mark-read/actions/workflows/ci.yml)
 [![License](https://img.shields.io/github/license/bearyjd/gv-mark-read?style=for-the-badge)](LICENSE)
 ![Last commit](https://img.shields.io/github/last-commit/bearyjd/gv-mark-read?style=for-the-badge)
 ![Node.js](https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)
