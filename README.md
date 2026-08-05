@@ -1,4 +1,20 @@
-# gv-mark-read
+<!-- glowup:hero start -->
+<div align="center">
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/banner.svg">
+    <img src="docs/assets/banner-light.svg" alt="gv-mark-read" width="880">
+  </picture>
+</h1>
+
+[![License](https://img.shields.io/github/license/bearyjd/gv-mark-read?style=for-the-badge)](LICENSE)
+![Last commit](https://img.shields.io/github/last-commit/bearyjd/gv-mark-read?style=for-the-badge)
+![Node.js](https://img.shields.io/badge/Node.js-5FA04E?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Playwright](https://img.shields.io/badge/Playwright-2EAD33?style=for-the-badge&logo=playwright&logoColor=white)
+![Chrome](https://img.shields.io/badge/Chrome-4285F4?style=for-the-badge&logo=googlechrome&logoColor=white)
+</div>
+<!-- glowup:hero end -->
 
 Bulk-marks unread Google Voice voicemails as read, by driving a real,
 logged-in Chrome profile with [Playwright](https://playwright.dev/).
