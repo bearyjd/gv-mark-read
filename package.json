@@ -1,0 +1,16 @@
+{
+  "name": "gv-mark-read",
+  "version": "1.0.0",
+  "description": "Bulk-mark unread Google Voice voicemails as read via Playwright browser automation",
+  "main": "gv_mark_read.js",
+  "bin": {
+    "gv-mark-read": "./gv_mark_read.js"
+  },
+  "scripts": {
+    "start": "node gv_mark_read.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.62.1"
+  }
+}
