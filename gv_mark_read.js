@@ -20,6 +20,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { chromium } = require("playwright");
+const { ensureSecureDir } = require("./secure-dir");
 
 const SELECTORS = {
   unreadRow: "div.timestamp:not(.read)",
@@ -213,7 +214,7 @@ async function main() {
     );
   }
 
-  fs.mkdirSync(args.profileDir, { recursive: true });
+  ensureSecureDir(args.profileDir);
   console.log(`Using profile directory: ${args.profileDir}`);
   if (args.dryRun) {
     console.log("Dry run: unread rows will be logged but NOT clicked.");

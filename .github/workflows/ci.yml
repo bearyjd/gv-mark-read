@@ -15,5 +15,6 @@ jobs:
         with:
           node-version: "20"
       - run: npm ci
+      - run: npm test
       - run: node -c gv_mark_read.js
       - run: node gv_mark_read.js --help
