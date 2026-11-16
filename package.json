@@ -7,7 +7,8 @@
     "gv-mark-read": "./gv_mark_read.js"
   },
   "scripts": {
-    "start": "node gv_mark_read.js"
+    "start": "node gv_mark_read.js",
+    "test": "node --test test/*.test.js"
   },
   "license": "MIT",
   "dependencies": {
