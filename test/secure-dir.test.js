@@ -40,3 +40,32 @@ test("does not follow symlinks", () => {
   ensureSecureDir(dir);
   assert.strictEqual(mode(outside), 0o644);
 });
+
+test("keeps the owner execute bit on files", () => {
+  const dir = path.join(tmp(), "profile");
+  fs.mkdirSync(dir);
+  const file = path.join(dir, "run.sh");
+  fs.writeFileSync(file, "x");
+  fs.chmodSync(file, 0o755);
+  ensureSecureDir(dir);
+  assert.strictEqual(mode(file), 0o700);
+});
+
+test("warns and continues when chmod fails with EPERM", (t) => {
+  const dir = path.join(tmp(), "profile");
+  fs.mkdirSync(dir);
+  const bad = path.join(dir, "root-owned");
+  const good = path.join(dir, "mine");
+  fs.writeFileSync(bad, "x");
+  fs.writeFileSync(good, "x", { mode: 0o644 });
+  fs.chmodSync(good, 0o644);
+  const real = fs.chmodSync;
+  t.mock.method(fs, "chmodSync", (p, m) => {
+    if (p === bad) throw Object.assign(new Error("EPERM"), { code: "EPERM" });
+    return real(p, m);
+  });
+  const warn = t.mock.method(console, "warn", () => {});
+  ensureSecureDir(dir);
+  assert.strictEqual(warn.mock.callCount(), 1);
+  assert.strictEqual(mode(good), 0o600);
+});
