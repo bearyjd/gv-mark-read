@@ -20,6 +20,7 @@ const fs = require("fs");
 const os = require("os");
 const path = require("path");
 const { chromium } = require("playwright");
+const { nextStuckCount } = require("./scroll-progress");
 const { ensureSecureDir } = require("./secure-dir");
 
 const SELECTORS = {
@@ -272,16 +273,10 @@ async function main() {
         console.log(
           `Scroll #${totalScrollAttempts}: ${scrollResult.before} -> ${scrollResult.after} (scrollHeight=${scrollResult.scrollHeight}) ${moved ? "" : "[NO MOVEMENT]"}`
         );
-        if (moved) {
-          consecutiveStuckScrolls = 0;
-        } else {
-          consecutiveStuckScrolls++;
-        }
       } else {
         console.log(`Scroll #${totalScrollAttempts}: used mouse-wheel fallback`);
-        // Can't measure position with the fallback, so just cap total attempts differently
-        consecutiveStuckScrolls = 0;
       }
+      consecutiveStuckScrolls = nextStuckCount(scrollResult, consecutiveStuckScrolls);
 
       await page.waitForTimeout(1200);
 
