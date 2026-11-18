@@ -22,6 +22,7 @@ const path = require("path");
 const { chromium } = require("playwright");
 const { nextStuckCount } = require("./scroll-progress");
 const { ensureSecureDir } = require("./secure-dir");
+const { unreadSelector, markSeen } = require("./dry-run");
 
 const SELECTORS = {
   unreadRow: "div.timestamp:not(.read)",
@@ -262,7 +263,9 @@ async function main() {
   let totalScrollAttempts = 0;
 
   while (markedCount < args.maxTotal) {
-    const unreadRow = await page.$(SELECTORS.unreadRow);
+    const unreadRow = await page.$(
+      unreadSelector(SELECTORS.unreadRow, args.dryRun)
+    );
 
     if (!unreadRow) {
       totalScrollAttempts++;
@@ -294,10 +297,9 @@ async function main() {
     if (args.dryRun) {
       markedCount++;
       console.log(`[dry-run] Found unread row ${markedCount} (not clicking)`);
-      // Dry-run still needs to make progress past the row it just found,
-      // otherwise the same row matches forever and the loop never scrolls.
-      await scrollList(page);
-      await page.waitForTimeout(300);
+      // Tag the row so it is not counted again; once every visible unread row
+      // is tagged the loop scrolls, and stops at the true end of the list.
+      await markSeen(unreadRow);
       continue;
     }
 
