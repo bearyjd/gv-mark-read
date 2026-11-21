@@ -26,6 +26,8 @@ const { unreadSelector, markSeen } = require("./dry-run");
 
 const SELECTORS = {
   unreadRow: "div.timestamp:not(.read)",
+  scrollContainer:
+    'cdk-virtual-scroll-viewport, [class*="scroll"], [class*="viewport"], [class*="list"]',
 };
 
 const DEFAULT_PROFILE_DIR = path.join(os.homedir(), ".gv-mark-read", "chrome-profile");
@@ -163,10 +165,8 @@ function detectChromePath() {
 }
 
 async function scrollList(page) {
-  const result = await page.evaluate(() => {
-    const candidates = document.querySelectorAll(
-      'cdk-virtual-scroll-viewport, [class*="scroll"], [class*="viewport"], [class*="list"]'
-    );
+  const result = await page.evaluate((containerSelector) => {
+    const candidates = document.querySelectorAll(containerSelector);
     let best = null;
     let bestArea = 0;
     for (const el of candidates) {
@@ -190,7 +190,7 @@ async function scrollList(page) {
       };
     }
     return { method: "none" };
-  });
+  }, SELECTORS.scrollContainer);
 
   if (result.method === "none") {
     const viewport = page.viewportSize();
