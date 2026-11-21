@@ -1,7 +1,7 @@
 "use strict";
 const test = require("node:test");
 const assert = require("node:assert");
-const { unreadSelector, markSeen, SEEN_ATTR } = require("../dry-run");
+const { unreadSelector, markSeen, tryMarkSeen, SEEN_ATTR } = require("../dry-run");
 
 const BASE = "div.timestamp:not(.read)";
 
@@ -15,4 +15,13 @@ test("markSeen tags the row so it is not counted twice", async () => {
   const handle = { evaluate: async (fn, attr) => fn(el, attr) };
   await markSeen(handle);
   assert.ok(SEEN_ATTR in attrs);
+});
+
+test("tryMarkSeen does not throw when the row handle is detached", async () => {
+  const handle = {
+    evaluate: async () => {
+      throw new Error("Execution context was destroyed");
+    },
+  };
+  await assert.doesNotReject(() => tryMarkSeen(handle));
 });
