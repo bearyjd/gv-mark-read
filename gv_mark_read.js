@@ -263,9 +263,7 @@ async function main() {
   let totalScrollAttempts = 0;
 
   while (markedCount < args.maxTotal) {
-    const unreadRow = await page.$(
-      unreadSelector(SELECTORS.unreadRow, args.dryRun)
-    );
+    const unreadRow = await page.$(unreadSelector(SELECTORS.unreadRow));
 
     if (!unreadRow) {
       totalScrollAttempts++;
@@ -310,6 +308,7 @@ async function main() {
       console.log(`Marked read: ${markedCount}`);
     } catch (err) {
       console.warn("Click failed on this row, skipping:", err.message);
+      await markSeen(unreadRow);
       await scrollList(page);
       await page.waitForTimeout(500);
     }

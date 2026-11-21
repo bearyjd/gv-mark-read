@@ -1,11 +1,12 @@
 "use strict";
 
-// Dry-run never clicks rows, so an already-counted unread row keeps matching.
-// Tag counted rows and exclude them so the count stops at the real end of the list.
+// A row that is not clicked (dry-run count, or a failed click that is being
+// skipped) keeps matching the unread selector. Tag it and exclude tagged rows
+// so the loop moves past it and stops at the real end of the list.
 const SEEN_ATTR = "data-gv-seen";
 
-function unreadSelector(base, dryRun) {
-  return dryRun ? `${base}:not([${SEEN_ATTR}])` : base;
+function unreadSelector(base) {
+  return `${base}:not([${SEEN_ATTR}])`;
 }
 
 function markSeen(rowHandle) {

@@ -5,12 +5,8 @@ const { unreadSelector, markSeen, SEEN_ATTR } = require("../dry-run");
 
 const BASE = "div.timestamp:not(.read)";
 
-test("non-dry-run selector is unchanged", () => {
-  assert.strictEqual(unreadSelector(BASE, false), BASE);
-});
-
-test("dry-run selector excludes rows already counted", () => {
-  assert.strictEqual(unreadSelector(BASE, true), `${BASE}:not([${SEEN_ATTR}])`);
+test("selector excludes rows already counted or skipped", () => {
+  assert.strictEqual(unreadSelector(BASE), `${BASE}:not([${SEEN_ATTR}])`);
 });
 
 test("markSeen tags the row so it is not counted twice", async () => {
